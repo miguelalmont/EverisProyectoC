@@ -77,7 +77,7 @@ public class SoccerController {
 
 	@GetMapping("/insert-team-form")
 	public String showInsertTeam(@ModelAttribute(value = "newTeam") Teams team) {
-		return "insert-client-form";
+		return "insert-team-form";
 	}
 
 	/**
@@ -94,12 +94,12 @@ public class SoccerController {
 
 		if (null != result && result.hasErrors()) {
 
-			return "insert-client-form";
+			return "insert-team-form";
 		} else {
 			try {
 				teamsService.addTeam(team);
 			} catch (Exception ex) {
-				return "error";
+//				return "error";
 			}
 
 			return "ranking";
@@ -148,7 +148,7 @@ public class SoccerController {
 			try {
 				soccerService.addGame(game);
 			} catch (Exception ex) {
-				return "error";
+//				return "error";
 			}
 
 			return "redirect:ranking";
