@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>LIGA DE FUTBOL</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body class="card-body">
+	<div class="card text-black bg-white mb-3">
+		<div class="card-header">Datos del nuevo partido</div>
+		<div class="card-body">
+			<form th:action="@{/}" th:object="${}" method="POST">
+				<div class="form-group">
+			  		<label for="inpGameId">Id</label>
+			  		<input type="text" required="required" class="form-control" id="inpGameId" name="gameId" placeholder="Id">
+				</div>
+				<div class="form-group">
+			  		<label for="inpGameLocal">Local</label>
+			  		<input type="text" required="required" class="form-control" id="inpGameLocal" name="local" placeholder="Local">
+				</div>
+				<div class="form-group">
+			  		<label for="inpGameVisitor">Visitor</label>
+			  		<input type="text" required="required" class="form-control" id="inpGameVisitor" name="visitor" placeholder="Visitor">
+				</div>
+				<div class="form-group">
+			  		<label for="inpGameLocalGoals">Local Goals</label>
+			  		<input type="text" required="required" class="form-control" id="inpGameLocalGoals" name="localGoals" placeholder="Local Goals">
+				</div>
+				<div class="form-group">
+			  		<label for="inpTeamGameVisitorGoals">Visitor Goals</label>
+			  		<input type="text" required="required" class="form-control" id="inpTeamGameVisitorGoals" name="visitorGoals" placeholder="Visitor Goals">
+				</div>
+				<button type="submit" name="btnAddGame" class="btn btn-success">Añadir</button>
+				<a class="btn btn-primary" href="index" role="button" id="aBtnReturn">Volver</a>
+			
+			</form>
+		
+		</div>
+	</div>
+
+</body>
+</html>
