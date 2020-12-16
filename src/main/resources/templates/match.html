@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head class="thead-dark">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>LIGA DE FUTBOL</title>
+	<title>LIGA APP</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
@@ -11,7 +11,7 @@
 	<div class="card text-black bg-white mb-3">
 		<div class="card-header">Datos del nuevo partido</div>
 		<div class="card-body">
-			<form th:action="@{/}" th:object="${}" method="POST">
+			<form th:action="@{/insert-match}" th:object="${newMatch}" method="POST">
 				<div class="form-group">
 			  		<label for="inpGameId">Id</label>
 			  		<input type="text" required="required" class="form-control" id="inpGameId" name="gameId" placeholder="Id">
@@ -33,7 +33,7 @@
 			  		<input type="text" required="required" class="form-control" id="inpTeamGameVisitorGoals" name="visitorGoals" placeholder="Visitor Goals">
 				</div>
 				<button type="submit" name="btnAddGame" class="btn btn-success">Añadir</button>
-				<a class="btn btn-primary" href="index" role="button" id="aBtnReturn">Volver</a>
+				<a class="btn btn-dark" href="index" role="button" id="aBtnReturn">Volver</a>
 			
 			</form>
 		
