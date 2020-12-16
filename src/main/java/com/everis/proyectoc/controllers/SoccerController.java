@@ -3,9 +3,15 @@ package com.everis.proyectoc.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.everis.proyectoc.repositories.SoccerGames;
+import com.everis.proyectoc.repositories.Teams;
 import com.everis.proyectoc.services.SoccerGamesServiceI;
 import com.everis.proyectoc.services.TeamsServiceI;
 
@@ -41,6 +47,14 @@ public class SoccerController {
 		return "ranking";
 	}
 	
+	/**
+	 * Escucha la ruta "insert-team", añade el equipo y redirige a la pagina principal
+	 * 
+	 * @param team
+	 * @param result
+	 * @param model
+	 * @return String
+	 */
 	@GetMapping("/insert-team")
 	public String showInsertTeam(@ModelAttribute(value="newTeam") Teams team, BindingResult result, Model model) {
 		
@@ -56,6 +70,33 @@ public class SoccerController {
 			}
 			
 			return "index";
+		}
+		
+	}
+		
+	/**
+	 * Escucha la ruta "insert-match", añade el equipo y redirige a la pagina ranking
+	 * 
+	 * @param match
+	 * @param result
+	 * @param model
+	 * @return String
+	 */
+	@GetMapping("/insert-match")
+public String showInsertMatch(@ModelAttribute(value="newMatch") SoccerGames game, BindingResult result, Model model) {
+		
+		if (null != result && result.hasErrors()) {
+            return "insert-team-form";
+            
+		} else {
+			
+			try {
+				soccerService.addGame(game);
+			}catch(Exception ex) {
+				return "error";
+			}
+			
+			return "ranking";
 		}
 		
 	}
