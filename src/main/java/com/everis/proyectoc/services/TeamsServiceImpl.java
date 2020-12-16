@@ -3,11 +3,12 @@ package com.everis.proyectoc.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.everis.proyectoc.repositories.SoccerGames;
 import com.everis.proyectoc.repositories.Teams;
 import com.everis.proyectoc.repositories.TeamsRepositoryI;
 
+@Service
 public class TeamsServiceImpl implements TeamsServiceI {
 
 	@Autowired
@@ -42,7 +43,7 @@ public class TeamsServiceImpl implements TeamsServiceI {
 
 	@Override
 	public void modifyTeam(Teams team) {
-		
+
 		Teams teamToUpdate = teamsRepository.findTeamsByTeamId(team.getTeamId());
 		if (teamToUpdate != null) {
 			teamToUpdate.setName(team.getName());
@@ -53,12 +54,12 @@ public class TeamsServiceImpl implements TeamsServiceI {
 			teamToUpdate.setGoalsAgainst(team.getGoalsAgainst());
 			teamsRepository.save(teamToUpdate);
 		}
-		
+
 	}
 
 	@Override
 	public List<Teams> getTeamByName(String teamName) {
-		
+
 		return teamsRepository.findTeamsByName(teamName);
 	}
 

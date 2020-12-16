@@ -2,8 +2,11 @@ package com.everis.proyectoc.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.everis.proyectoc.repositories.SoccerGames;
 
+@Service
 public interface SoccerGamesServiceI {
 
 	public void addGame(final SoccerGames game);

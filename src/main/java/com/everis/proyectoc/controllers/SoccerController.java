@@ -43,43 +43,29 @@ public class SoccerController {
 	 * @return String
 	 */
 	@GetMapping("/ranking")
-    public String showRanking(Model model) {
+	public String showRanking(Model model) {
 
- 
+		List<Teams> teamsList = teamsService.getAllTeams();
+		LinkedHashMap<String, Teams> ranking = new LinkedHashMap<>(teamsList.size());
 
-        List<Teams> teamsList = teamsService.getAllTeams();
-        LinkedHashMap<String, Teams> ranking = new LinkedHashMap<>(teamsList.size());
+		for (Teams team : teamsList) {
+			int points = 0;
 
- 
+			for (int i = 0; i < team.getVictories(); i++) {
+				points += 3;
+			}
 
-        for (Teams team : teamsList) {
-            int points = 0;
+			for (int i = 0; i < team.getDraw(); i++) {
+				points += 1;
+			}
 
- 
+			ranking.put(String.valueOf(points), team);
+		}
 
-            for (int i = 0; i < team.getVictories(); i++) {
-                points += 3;
-            }
+		model.addAttribute("ranking", ranking);
 
- 
-
-            for (int i = 0; i < team.getDraw(); i++) {
-                points += 1;
-            }
-
- 
-
-            ranking.put(String.valueOf(points), team);
-        }
-
- 
-
-        model.addAttribute("ranking", ranking);
-
- 
-
-        return "ranking";
-    }
+		return "ranking";
+	}
 	
 	/**
 	 * Escucha la ruta "insert-team", añade el equipo y redirige a la pagina principal
