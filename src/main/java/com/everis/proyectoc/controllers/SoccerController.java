@@ -1,7 +1,9 @@
 package com.everis.proyectoc.controllers;
 
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +48,7 @@ public class SoccerController {
 	public String showRanking(Model model) {
 
 		List<Teams> teamsList = teamsService.getAllTeams();
-		LinkedHashMap<String, Teams> ranking = new LinkedHashMap<>(teamsList.size());
+		LinkedHashMap<Integer, Teams> ranking = new LinkedHashMap<>(teamsList.size());
 
 		for (Teams team : teamsList) {
 			int points = 0;
@@ -59,10 +61,14 @@ public class SoccerController {
 				points += 1;
 			}
 
-			ranking.put(String.valueOf(points), team);
+			ranking.put(points, team);
 		}
+		
+		LinkedHashMap<Integer, Teams> reverseSortedMap = new LinkedHashMap<>();
+        ranking.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
+                .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
-		model.addAttribute("ranking", ranking);
+		model.addAttribute("ranking", reverseSortedMap);
 
 		return "ranking";
 	}
