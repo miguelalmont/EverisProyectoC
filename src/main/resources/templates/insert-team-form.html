@@ -11,7 +11,7 @@
 	<div class="card text-black bg-white mb-3">
 		<div class="card-header">Datos del nuevo equipo</div>
 		<div class="card-body">
-			<form th:action="@{/}" th:object="${}" method="POST">
+			<form th:action="@{/insert-team}" th:object="${newTeam}" method="POST">
 				<div class="form-group">
 			  		<label for="inpTeamId">Id</label>
 			  		<input type="text" required="required" class="form-control" id="inpTeamId" name="teamId" placeholder="Id">

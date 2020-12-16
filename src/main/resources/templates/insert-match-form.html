@@ -11,7 +11,7 @@
 	<div class="card text-black bg-white mb-3">
 		<div class="card-header">Datos del nuevo partido</div>
 		<div class="card-body">
-			<form th:action="@{/}" th:object="${}" method="POST">
+			<form th:action="@{/insert-match}" th:object="${newMatch}" method="POST">
 				<div class="form-group">
 			  		<label for="inpGameId">Id</label>
 			  		<input type="text" required="required" class="form-control" id="inpGameId" name="gameId" placeholder="Id">

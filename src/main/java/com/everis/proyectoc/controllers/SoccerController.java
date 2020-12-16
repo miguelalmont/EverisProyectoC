@@ -23,12 +23,12 @@ import com.everis.proyectoc.services.TeamsServiceI;
 @Controller
 @RequestMapping("*")
 public class SoccerController {
-	
+
 	@Autowired
 	SoccerGamesServiceI soccerService;
 	@Autowired
 	TeamsServiceI teamsService;
-	
+
 	/**
 	 * Escucha cualquier ruta y muestra la vista del índice.
 	 * 
@@ -39,8 +39,10 @@ public class SoccerController {
 	public String showIndex(Model model) {
 		return "index";
 	}
+
 	/**
 	 * Escucha la ruta "ranking" y muestra la clasificación de los equipos
+	 * 
 	 * @param model
 	 * @return String
 	 */
@@ -63,42 +65,48 @@ public class SoccerController {
 
 			ranking.put(points, team);
 		}
-		
+
 		LinkedHashMap<Integer, Teams> reverseSortedMap = new LinkedHashMap<>();
-        ranking.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
-                .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+		ranking.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
+				.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
 		model.addAttribute("ranking", reverseSortedMap);
 
 		return "ranking";
 	}
-	
+
+	@GetMapping("/insert-team-form")
+	public String showInsertTeam(@ModelAttribute(value = "newTeam") Teams team) {
+		return "insert-client-form";
+	}
+
 	/**
-	 * Escucha la ruta "insert-team", añade el equipo y redirige a la pagina principal
+	 * Escucha la ruta "insert-team", añade el equipo y redirige a la pagina
+	 * principal
 	 * 
 	 * @param team
 	 * @param result
 	 * @param model
 	 * @return String
 	 */
-	@GetMapping("/insert-team")
-	public String showInsertTeam(@ModelAttribute(value="newTeam") Teams team, BindingResult result, Model model) {
-		
+	@PostMapping("/insert-team")
+	public String onSubmitInsert(@ModelAttribute(value = "newTeam") Teams team, BindingResult result, Model model) {
+
 		if (null != result && result.hasErrors()) {
-            return "insert-team-form";
-            
+
+			return "insert-client-form";
 		} else {
-			
 			try {
 				teamsService.addTeam(team);
-			}catch(Exception ex) {
+			} catch (Exception ex) {
 				return "error";
 			}
-			
-			return "index";
+
+			return "ranking";
 		}
-		
+
 	}
+
 	/**
 	 * Elimina un equipo
 	 * 
@@ -108,14 +116,20 @@ public class SoccerController {
 	@PostMapping("/actDropTeam")
 	public String deleteTeam(@RequestParam int teamId, Model model) {
 
-		
 		// Eliminación de vehículo.
 		teamsService.removeTeamByID(teamId);
 
 		return "redirect:ranking";
 	}
+
+	@GetMapping("/insert-match-form")
+	public String showInsertMatch(@ModelAttribute(value = "newMatch") Teams team) {
+		return "insert-match-form";
+	}
+
 	/**
-	 * Escucha la ruta "insert-match", añade el equipo y redirige a la pagina ranking
+	 * Escucha la ruta "insert-match", añade el equipo y redirige a la pagina
+	 * ranking
 	 * 
 	 * @param match
 	 * @param result
@@ -123,22 +137,23 @@ public class SoccerController {
 	 * @return String
 	 */
 	@GetMapping("/insert-match")
-public String showInsertMatch(@ModelAttribute(value="newMatch") SoccerGames game, BindingResult result, Model model) {
-		
+	public String showInsertMatch(@ModelAttribute(value = "newMatch") SoccerGames game, BindingResult result,
+			Model model) {
+
 		if (null != result && result.hasErrors()) {
-            return "insert-team-form";
-            
+			return "insert-match-form";
+
 		} else {
-			
+
 			try {
 				soccerService.addGame(game);
-			}catch(Exception ex) {
+			} catch (Exception ex) {
 				return "error";
 			}
-			
-			return "ranking";
+
+			return "redirect:ranking";
 		}
-		
+
 	}
-	
+
 }
