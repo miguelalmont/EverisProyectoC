@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.everis.proyectoc.repositories.SoccerGames;
 import com.everis.proyectoc.repositories.SoccerGamesRepositoryI;
+import com.everis.proyectoc.repositories.Teams;
 
 @Service
 public class SoccerGamesServiceImpl implements SoccerGamesServiceI {
@@ -16,8 +17,33 @@ public class SoccerGamesServiceImpl implements SoccerGamesServiceI {
 
 	@Override
 	public void addGame(final SoccerGames game) {
+		
+		Teams teamL = game.getLocal();
+		Teams teamV = game.getVisitor();
+		
+		// Goles a favor
+		teamL.setGoalsFor(teamL.getGoalsFor() + game.getLocalGoals());
+		teamV.setGoalsFor(teamV.getGoalsFor() + game.getVisitorGoals());
+		
+		// Goles en contra
+		teamL.setGoalsAgainst(teamL.getGoalsAgainst() + game.getVisitorGoals());
+		teamV.setGoalsAgainst(teamV.getGoalsAgainst() + game.getLocalGoals());
+		
+		if (game.getLocalGoals() > game.getVisitorGoals()) {
+			teamL.setVictories(teamL.getVictories() + 1);
+			teamV.setDefeats(teamV.getDefeats() + 1);
+		}
+		else if (game.getLocalGoals() < game.getVisitorGoals()) {
+			teamL.setDefeats(teamL.getDefeats() + 1);
+			teamV.setVictories(teamV.getVictories() + 1);
+		}
+		else {
+			teamL.setDraw(teamL.getDraw() + 1);
+			teamV.setDraw(teamV.getDraw() + 1);
+		}
 
 		gamesRepository.save(game);
+		
 	}
 
 	@Override
