@@ -1,5 +1,8 @@
 package com.everis.proyectoc.controllers;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,12 +43,43 @@ public class SoccerController {
 	 * @return String
 	 */
 	@GetMapping("/ranking")
-	public String showRanking(Model model) {
-		
-		model.addAllAttributes("rankingTeams", teamsService.getRanking());
-		
-		return "ranking";
-	}
+    public String showRanking(Model model) {
+
+ 
+
+        List<Teams> teamsList = teamsService.getAllTeams();
+        LinkedHashMap<String, Teams> ranking = new LinkedHashMap<>(teamsList.size());
+
+ 
+
+        for (Teams team : teamsList) {
+            int points = 0;
+
+ 
+
+            for (int i = 0; i < team.getVictories(); i++) {
+                points += 3;
+            }
+
+ 
+
+            for (int i = 0; i < team.getDraw(); i++) {
+                points += 1;
+            }
+
+ 
+
+            ranking.put(String.valueOf(points), team);
+        }
+
+ 
+
+        model.addAttribute("ranking", ranking);
+
+ 
+
+        return "ranking";
+    }
 	
 	/**
 	 * Escucha la ruta "insert-team", añade el equipo y redirige a la pagina principal
@@ -73,7 +107,21 @@ public class SoccerController {
 		}
 		
 	}
+	/**
+	 * Elimina un equipo
+	 * 
+	 * @param teamId
+	 * @return String
+	 */
+	@PostMapping("/actDropTeam")
+	public String deleteTeam(@RequestParam int teamId, Model model) {
+
 		
+		// Eliminación de vehículo.
+		teamsService.removeTeamByID(teamId);
+
+		return "redirect:ranking";
+	}
 	/**
 	 * Escucha la ruta "insert-match", añade el equipo y redirige a la pagina ranking
 	 * 
