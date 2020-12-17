@@ -1,9 +1,6 @@
 package com.everis.proyectoc.controllers;
 
-import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,42 +34,12 @@ public class SoccerController {
 	 */
 	@GetMapping
 	public String showIndex(Model model) {
+		
+		List<Teams> teams = teamsService.getAllTeamsOrderByPoints();
+
+		model.addAttribute("ranking", teams);
+		
 		return "index";
-	}
-
-	/**
-	 * Escucha la ruta "ranking" y muestra la clasificación de los equipos
-	 * 
-	 * @param model
-	 * @return String
-	 */
-	@GetMapping("/ranking")
-	public String showRanking(Model model) {
-
-		List<Teams> teamsList = teamsService.getAllTeams();
-		LinkedHashMap<Integer, Teams> ranking = new LinkedHashMap<>(teamsList.size());
-
-		for (Teams team : teamsList) {
-			int points = 0;
-
-			for (int i = 0; i < team.getVictories(); i++) {
-				points += 3;
-			}
-
-			for (int i = 0; i < team.getDraw(); i++) {
-				points += 1;
-			}
-
-			ranking.put(points, team);
-		}
-
-		LinkedHashMap<Integer, Teams> reverseSortedMap = new LinkedHashMap<>();
-		ranking.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
-				.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
-
-		model.addAttribute("ranking", reverseSortedMap);
-
-		return "ranking";
 	}
 
 	@GetMapping("/insert-team-form")
@@ -102,7 +69,7 @@ public class SoccerController {
 //				return "error";
 			}
 
-			return "ranking";
+			return "redirect:index";
 		}
 
 	}
@@ -116,15 +83,20 @@ public class SoccerController {
 	@PostMapping("/actDropTeam")
 	public String deleteTeam(@RequestParam int teamId, Model model) {
 
-		// Eliminación de vehículo.
+		// Eliminación de equipo.
 		teamsService.removeTeamByID(teamId);
 
-		return "redirect:ranking";
+		return "redirect:index";
 	}
 
 	@GetMapping("/insert-match-form")
-	public String showInsertMatch(@ModelAttribute(value = "newMatch") Teams team) {
+	public String showInsertMatch(@ModelAttribute(value = "newMatch") Teams team, Model model) {
+		List<Teams> teams = teamsService.getAllTeams();
+		
+		model.addAttribute("teams", teams);
+		
 		return "insert-match-form";
+		
 	}
 
 	/**
@@ -136,22 +108,26 @@ public class SoccerController {
 	 * @param model
 	 * @return String
 	 */
-	@GetMapping("/insert-match")
+	@PostMapping("/insert-match")
 	public String showInsertMatch(@ModelAttribute(value = "newMatch") SoccerGames game, BindingResult result,
 			Model model) {
 
 		if (null != result && result.hasErrors()) {
-			return "insert-match-form";
+			System.out.println(result.toString());
+			return "error";
 
 		} else {
 
 			try {
+				game.setLocal(teamsService.getTeamByName(game.getLocal().getName()));
+				game.setVisitor(teamsService.getTeamByName(game.getVisitor().getName()));
 				soccerService.addGame(game);
 			} catch (Exception ex) {
-//				return "error";
+				ex.printStackTrace();
+				return "error";
 			}
 
-			return "redirect:ranking";
+			return "redirect:index";
 		}
 
 	}

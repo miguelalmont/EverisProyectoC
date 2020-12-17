@@ -19,6 +19,8 @@ public interface TeamsServiceI {
 
 	public void modifyTeam(final Teams team);
 
-	public List<Teams> getTeamByName(final String teamName);
+	public Teams getTeamByName(final String teamName);
+	
+	public List<Teams> getAllTeamsOrderByPoints();
 
 }

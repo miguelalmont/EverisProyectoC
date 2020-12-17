@@ -15,12 +15,25 @@ public class SoccerGames implements Serializable {
 
 	/** SERIAL ID */
 	private static final long serialVersionUID = 1L;
+	
+	/** ID del partido */
 	private int gameId;
+	
+	/** Equipo local */
 	private Teams local;
+	
+	/** Equipo visitante */
 	private Teams visitor;
+	
+	/** Goles del equipo local */
 	private int localGoals;
+	
+	/** Goles del equipo visitante */
 	private int visitorGoals;
 
+	/**
+	 * Constructor vacio
+	 */
 	public SoccerGames() {
 		super();
 	}

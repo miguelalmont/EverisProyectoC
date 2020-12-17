@@ -58,9 +58,15 @@ public class TeamsServiceImpl implements TeamsServiceI {
 	}
 
 	@Override
-	public List<Teams> getTeamByName(String teamName) {
+	public Teams getTeamByName(String teamName) {
 
 		return teamsRepository.findTeamsByName(teamName);
+	}
+
+	@Override
+	public List<Teams> getAllTeamsOrderByPoints() {
+
+		return teamsRepository.findAllByOrderByPointsDesc();
 	}
 
 }

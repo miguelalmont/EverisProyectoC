@@ -16,17 +16,40 @@ public class Teams implements Serializable {
 
 	/** SERIAL ID */
 	private static final long serialVersionUID = 1L;
-
+	
+	/** Id del equipo */
 	private int teamId;
+	
+	/** Nombre del equipo */
 	private String name;
+	
+	/** Numero de victorias */
 	private int victories;
+	
+	/** Numero de derrotas */
 	private int defeats;
+	
+	/** Numero de empates */
 	private int draw;
+	
+	/** Goles a favor */
 	private int goalsFor;
+	
+	/** Goles en contra */
 	private int goalsAgainst;
+	
+	/** Puntos */
+	private int points;
+	
+	/** Lista de partidos como local */
 	private List<SoccerGames> localGames;
+	
+	/** Lista de partidos como visitante */
 	private List<SoccerGames> visitorGames;
-
+	
+	/**
+	 * Constructor vacio
+	 */
 	public Teams() {
 		super();
 	}
@@ -166,6 +189,21 @@ public class Teams implements Serializable {
 	 */
 	public void setVisitorGames(List<SoccerGames> visitorGames) {
 		this.visitorGames = visitorGames;
+	}
+
+	/**
+	 * @return the points
+	 */
+	@Column(name = "points")
+	public int getPoints() {
+		return points;
+	}
+
+	/**
+	 * @param points the points to set
+	 */
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 }

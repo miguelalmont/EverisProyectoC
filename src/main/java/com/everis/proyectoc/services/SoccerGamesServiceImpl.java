@@ -15,35 +15,46 @@ public class SoccerGamesServiceImpl implements SoccerGamesServiceI {
 	@Autowired
 	SoccerGamesRepositoryI gamesRepository;
 
+	@Autowired
+	TeamsServiceI teamsService;
+
 	@Override
 	public void addGame(final SoccerGames game) {
-		
+
 		Teams teamL = game.getLocal();
 		Teams teamV = game.getVisitor();
-		
+
 		// Goles a favor
 		teamL.setGoalsFor(teamL.getGoalsFor() + game.getLocalGoals());
 		teamV.setGoalsFor(teamV.getGoalsFor() + game.getVisitorGoals());
-		
+
 		// Goles en contra
 		teamL.setGoalsAgainst(teamL.getGoalsAgainst() + game.getVisitorGoals());
 		teamV.setGoalsAgainst(teamV.getGoalsAgainst() + game.getLocalGoals());
-		
+
+		// Victorias, derrotas y empates
 		if (game.getLocalGoals() > game.getVisitorGoals()) {
 			teamL.setVictories(teamL.getVictories() + 1);
 			teamV.setDefeats(teamV.getDefeats() + 1);
-		}
-		else if (game.getLocalGoals() < game.getVisitorGoals()) {
+			teamL.setPoints(teamL.getPoints() + 3);
+		} else if (game.getLocalGoals() < game.getVisitorGoals()) {
 			teamL.setDefeats(teamL.getDefeats() + 1);
 			teamV.setVictories(teamV.getVictories() + 1);
-		}
-		else {
+			teamV.setPoints(teamV.getPoints() + 3);
+		} else {
 			teamL.setDraw(teamL.getDraw() + 1);
 			teamV.setDraw(teamV.getDraw() + 1);
+			teamL.setPoints(teamL.getPoints() + 1);
+			teamV.setPoints(teamV.getPoints() + 1);
 		}
 
+		// Modificación de estadísticas
+		teamsService.modifyTeam(teamL);
+		teamsService.modifyTeam(teamV);
+
+		// Inserción del partido
 		gamesRepository.save(game);
-		
+
 	}
 
 	@Override
