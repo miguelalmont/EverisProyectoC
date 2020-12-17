@@ -90,7 +90,8 @@ public class SoccerController {
 	}
 
 	@GetMapping("/insert-match-form")
-	public String showInsertMatch(@ModelAttribute(value = "newMatch") Teams team, Model model) {
+	public String showInsertMatch(@ModelAttribute(value = "newMatch") SoccerGames game, Model model) {
+		
 		List<Teams> teams = teamsService.getAllTeams();
 		
 		model.addAttribute("teams", teams);
@@ -115,12 +116,12 @@ public class SoccerController {
 		if (null != result && result.hasErrors()) {
 			System.out.println(result.toString());
 			return "error";
-
+			
 		} else {
 
 			try {
-				game.setLocal(teamsService.getTeamByName(game.getLocal().getName()));
-				game.setVisitor(teamsService.getTeamByName(game.getVisitor().getName()));
+				game.setLocal(teamsService.getTeamByID(game.getLocal().getTeamId()));
+				game.setVisitor(teamsService.getTeamByID(game.getVisitor().getTeamId()));
 				soccerService.addGame(game);
 			} catch (Exception ex) {
 				ex.printStackTrace();
