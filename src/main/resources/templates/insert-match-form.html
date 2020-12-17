@@ -19,30 +19,45 @@
 		<div class="card-body">
 
 			<form th:action="@{/insert-match}" th:object="${newMatch}"
-				method="POST">
-				
-				<!--<select name="local.name" id="localName" class="form-control">
-			     <option th:each="team: ${teams}"
-			             th:value="${team.teamId}"
-			             th:text="${team.name}"/>
-				</select>-->
-				
-				 <div class="form-group w-50 container text-center">
+				method="POST" class="text-center container">
+				<div class="row justify-content-center">
+					<div class="col-4">
+					<label>Equipo Local:</label>
+						<div class="form-group w-50 container dropdown">
+						    <select th:field="*{local.teamId}" class="btn btn-secondary dropdown-toggle">
+						        <option th:each="team:${teams}"
+						            th:value="${team.teamId}"
+						            th:text="${team.name}"/>
+						    </select>
+						</div>
+					</div>
+					<div class="col-4">
+						<label>Equipo Visitante:</label>
+						<div class="form-group w-50 container dropdown">
+						    <select th:field="*{visitor.teamId}" class="btn btn-secondary dropdown-toggle">
+						        <option th:each="team:${teams}"
+						            th:value="${team.teamId}"
+						            th:text="${team.name}"/>
+						    </select>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="form-group w-50 container text-center">
 						<input type="text" required="required" class="form-control"
 							id="inpGameLocal" name="local.name" placeholder="Equipo local">
-				</div>
+				</div> -->
 
-				<div class="form-group w-50 container text-center">
+				<!-- <div class="form-group w-50 container text-center">
 						<input type="text" required="required" class="form-control "
 							id="inpGameVisitor" name="visitor.name"
 							placeholder="Equipo visitante">
-				</div>
-				<div class="form-group w-50 container text-center">
+				</div> -->
+				<div class="form-group w-50 container">
 						<input type="text" required="required" class="form-control"
 							id="inpGameLocalGoals" name="localGoals"
 							placeholder="Goles local">
 				</div>
-				<div class="form-group w-50 container text-center">
+				<div class="form-group w-50 container">
 						<input type="text" required="required" class="form-control mb-4"
 							id="inpTeamGameVisitorGoals" name="visitorGoals"
 							placeholder="Goles visitante">

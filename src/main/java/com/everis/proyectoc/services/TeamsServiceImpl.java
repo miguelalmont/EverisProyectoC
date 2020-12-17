@@ -13,25 +13,42 @@ public class TeamsServiceImpl implements TeamsServiceI {
 
 	@Autowired
 	TeamsRepositoryI teamsRepository;
-
+	
+	/**
+	 * metodo para insertar un nuevo equipo
+	 * @param team
+	 */
 	@Override
 	public void addTeam(Teams team) {
 
 		teamsRepository.save(team);
 	}
-
+	
+	/**
+	 * metodo para mostrar todos los equipos
+	 * @return List<Teams>
+	 */
 	@Override
 	public List<Teams> getAllTeams() {
 
 		return teamsRepository.findAll();
 	}
 
+	/**
+	 * metodo para buscar equipos por su ID
+	 * @param teamId
+	 * @return Teams
+	 */
 	@Override
 	public Teams getTeamByID(int teamId) {
 
 		return teamsRepository.findTeamsByTeamId(teamId);
 	}
 
+	/**
+	 * metodo para eliminar equipo por su ID
+	 * @param teamId
+	 */
 	@Override
 	public void removeTeamByID(int teamId) {
 
@@ -41,6 +58,10 @@ public class TeamsServiceImpl implements TeamsServiceI {
 
 	}
 
+	/**
+	 * Metodo para modificar equipo
+	 * @param team
+	 */
 	@Override
 	public void modifyTeam(Teams team) {
 
@@ -56,13 +77,22 @@ public class TeamsServiceImpl implements TeamsServiceI {
 		}
 
 	}
-
+	
+	/**
+	 * Metodo para mostrar equipos por su nombre
+	 * @param teamName
+	 * @return Teams
+	 */
 	@Override
 	public Teams getTeamByName(String teamName) {
 
 		return teamsRepository.findTeamsByName(teamName);
 	}
 
+	/**
+	 * Metodo para mostrar los equipos ordenados por los puntos conseguidos
+	 * @return  List<Teams> 
+	 */
 	@Override
 	public List<Teams> getAllTeamsOrderByPoints() {
 

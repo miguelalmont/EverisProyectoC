@@ -17,7 +17,11 @@ public class SoccerGamesServiceImpl implements SoccerGamesServiceI {
 
 	@Autowired
 	TeamsServiceI teamsService;
-
+	
+	/**
+	 * Metodo para insertar nuevos partidos
+	 * @param game
+	 */
 	@Override
 	public void addGame(final SoccerGames game) {
 
@@ -56,19 +60,32 @@ public class SoccerGamesServiceImpl implements SoccerGamesServiceI {
 		gamesRepository.save(game);
 
 	}
-
+	
+	/**
+	 * Metodo que devuelve todos los partidos
+	 * @return List<SoccerGames>
+	 */
 	@Override
 	public List<SoccerGames> getAllGames() {
 
 		return gamesRepository.findAll();
 	}
-
+	
+	/**
+	 * Método que busca partidos por su ID
+	 * @param gameId
+	 * @return SoccerGame
+	 */
 	@Override
 	public SoccerGames getGameByID(final int gameId) {
 
 		return gamesRepository.findSoccerGamesByGameId(gameId);
 	}
 
+	/**
+	 * Metodo para eliminar partidos
+	 * @param gameId
+	 */
 	@Override
 	public void removeGameByID(final int gameId) {
 
@@ -77,6 +94,10 @@ public class SoccerGamesServiceImpl implements SoccerGamesServiceI {
 		gamesRepository.delete(game);
 	}
 
+	/**
+	 * Metodo para modificar partidos
+	 * @param game
+	 */
 	@Override
 	public void modifyGame(final SoccerGames game) {
 
