@@ -45,7 +45,16 @@
 					<td th:text="${team.goalsFor}"></td>
 					<td th:text="${team.goalsAgainst}"></td>
 					<td th:text="${team.points}"></td>
-					<!-- METER BOTON ELIMINAR -->
+					<td scope="row" th:hidden="${btnDropTeamEnabled}">
+						<form action="actDropTeam" method="post">
+							<button th:disabled="${btnDropTeamEnabled}" 
+									type="submit"
+									id="btnDropTeam" 
+									name="entity" 
+									th:value="${team.teamId}"
+									class="bi bi-trash"></button>
+						</form>
+					</td>
 				</tr>
 			</tbody>
 		</table>
